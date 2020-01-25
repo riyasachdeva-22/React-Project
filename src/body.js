@@ -40,16 +40,7 @@ class Body extends Component{
             console.log(citys);
             await this.setState({ citys: citys, redirectToSeach: true });
 
-            // const url = `https://developers.zomato.com/api/v2.1/restaurant?res_id=${_id}`;
-            // //ca11f3179ff24e27cd60c149e9ca900c
-            // const res = await fetch(url, {
-            //     method: 'GET',
-            //     headers: {
-            //         'user-key': 'ca11f3179ff24e27cd60c149e9ca900c',
-            //          'content-type':'application-json'
-            //     }
-            // });
-            // const data = await res.json();
+          
         }
     }
 

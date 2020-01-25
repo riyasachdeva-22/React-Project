@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
+import Card from 'react-bootstrap/Card'
+import { Button} from 'react-bootstrap';
 
-export default class Restraunts extends Component {
-    state = {
+class Restraunts extends Component {
+
+    constructor(){
+        super();
+    this.state = {
         resturants: []
     }
+}
     async componentDidMount() {
         const { lat, long } = this.props;
-        const url = `https://developers.zomato.com/api/v2.1/search?lat=${lat}&&long=${long} `;
+        const url = `https://developers.zomato.com/api/v2.1/search?lat=${lat}&lon=${long} `;
         const res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -15,17 +21,87 @@ export default class Restraunts extends Component {
             }  
         });
         const resturants = await res.json();
-        console.log(resturants);
-        await this.setState(resturants);
+        //console.log(resturants.restaurants);
+        await this.setState({resturants:resturants.restaurants});
     }
+    
+    //<div> {shop.restaurant.name}<img src={shop.restaurant.thumb}/></div>
     render() {
         return (
             <div>
                 <h1>Restraunts</h1>
-                {this.state.resturants.map((shop, i) => 
-                    <div key={i}> {shop.name} </div>
-                )}
+                <div className='row'>
+                    {this.state.resturants.map((shop) => {
+                        return  <Card style={{ width: '18rem' }} className='col-md-4'>
+                                                     <Card.Body>
+                                             <Card.Title>{shop.restaurant.name}</Card.Title>
+                                                   <img src={shop.restaurant.thumb}/>
+                                                     <hr/>
+                                                     <Card.Text>
+                                                         Timings : {shop.restaurant.timings}
+                                                     </Card.Text>
+                                                     <Card.Text>
+                                                         Type :   {shop.restaurant.cuisines}
+                                                 </Card.Text>
+                                                     <Card.Text>
+                                                         Average cost for two : {shop.restaurant.average_cost_for_two} Rs.
+                                                         User Rating :{shop.restaurant.user_rating.aggregate_rating}
+                                                     </Card.Text>
+                                                     <Button variant="primary">Order Now</Button>
+                                                     </Card.Body>
+                                                </Card>
+                    })}
+                </div>
             </div>
+    //         <div>
+    //             
+    //             {console.log(this.state.resturants)}
+    //             {
+    //             this.state.resturants.map((shop) => {
+    //               return <div>
+                
+    //             <div class="row">
+    //                 <div class="column">
+    //                     <div class="card">
+    //                         <Card style={{ width: '18rem' }}>
+    //                             <Card.Body>
+    //                             <Card.Title>{shop.restaurant.name}</Card.Title>
+    //                             <img src={shop.restaurant.thumb}/>
+    //                             <hr/>
+    //                             <Card.Text>
+    //                                 Timings : {shop.restaurant.timings}
+    //                             </Card.Text>
+    //                             <Card.Text>
+    //                                 Type :   {shop.restaurant.cuisines}
+    //                             </Card.Text>
+    //                             <Card.Text>
+    //                                 Average cost for two : {shop.restaurant.average_cost_for_two} Rs.
+    //                                 User Rating :{shop.restaurant.user_rating.aggregate_rating}
+    //                             </Card.Text>
+    //                             <Button variant="primary">Order Now</Button>
+    //                             </Card.Body>
+    //                             </Card>
+    //                     </div>
+    //                 </div>      
+    //             </div>
+    //  </div>
+    //             }
+    //         )}
+    //         </div>
         )
     }
 }
+
+
+export default Restraunts;
+
+
+
+
+
+
+
+
+
+
+
